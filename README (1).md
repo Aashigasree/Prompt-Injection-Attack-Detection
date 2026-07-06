@@ -7,6 +7,11 @@
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
 A machine learning–powered system that detects **prompt injection attacks** on LLM-style inputs, combining a **rule-based keyword filter** with a **TF-IDF + classifier ML pipeline**, wrapped in a **Django web application** with a live detection console and a monitoring dashboard.
+## 🔗 Live Demo
+
+🚀 **Launch the application:**
+https://prompt-injection-attack-detection.onrender.com
+
 
 ---
 
@@ -323,26 +328,25 @@ A confusion matrix visualization is saved at `results/confusion_matrix.png`.
 
 ---
 
-## 🤝 Contributing
 
-Contributions are welcome!
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -m "Add your feature"`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Open a Pull Request
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License**. (No `LICENSE` file was found in the repository — add one to formalize this.)
 
 ---
 
-## 👤 Author
+## **Contributors**
 
-**Rasika28-cs**
-GitHub: [Rasika28-cs](https://github.com/Rasika28-cs)
-Repository: [Prompt-Injection-Detection](https://github.com/Rasika28-cs/-Prompt-Injection-Detection)
+### Rasika
+
+* **GitHub:** https://github.com/Rasika28-cs
+* **Repository:** https://github.com/Aashigasree/Prompt-Injection-Attack-Detection
+
+### Aashigasree
+
+* **GitHub:** https://github.com/Aashigasree
+* **Repository:** https://github.com/Aashigasree/Prompt-Injection-Attack-Detection
+
+
+
+
