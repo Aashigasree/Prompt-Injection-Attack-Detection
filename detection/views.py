@@ -25,13 +25,14 @@ def detect_page(request):
 # ---------------------------
 # ML Model Setup
 # ---------------------------
-# Get project root directory
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # detection/
-PROJECT_DIR = os.path.dirname(BASE_DIR)  # Parent folder
+# Get project root directory (folder containing manage.py)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Model file paths
-VECTORIZER_PATH = os.path.join(PROJECT_DIR, 'models', 'tfidf_vectorizer.pkl')
-MODEL_PATH = os.path.join(PROJECT_DIR, 'models', 'classifier_model.pkl')
+VECTORIZER_PATH = os.path.join(BASE_DIR, "models", "tfidf_vectorizer.pkl")
+MODEL_PATH = os.path.join(BASE_DIR, "models", "classifier_model.pkl")
+
+print("Vectorizer:", VECTORIZER_PATH)
+print("Model:", MODEL_PATH)
 
 # Load ML models safely
 try:
