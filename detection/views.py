@@ -6,9 +6,6 @@ import os
 import joblib
 from .models import PromptLog
 
-from django.shortcuts import render
-from .models import PromptLog
-
 def dashboard_page(request):
 
     prompts = PromptLog.objects.order_by('-created_at')
@@ -40,9 +37,9 @@ MODEL_PATH = os.path.join(PROJECT_DIR, 'models', 'classifier_model.pkl')
 try:
     tfidf = joblib.load(VECTORIZER_PATH)
     model = joblib.load(MODEL_PATH)
-    print("✅ ML models loaded successfully.")
+    print("ML models loaded successfully.")
 except Exception as e:
-    print("⚠️ ML models not loaded. Check paths and server.")
+    print("ML models not loaded. Check paths and server.")
     print(e)
     tfidf = None
     model = None
@@ -99,7 +96,7 @@ def analyze(request):
         prediction = model.predict(vector)[0]
         confidence = max(model.predict_proba(vector)[0])
     except Exception as e:
-        print("⚠️ ML prediction error:", e)
+        print("ML prediction error:", e)
         return JsonResponse({
             "status": "danger",
             "message": "⚠️ Error processing prompt. Check server."
