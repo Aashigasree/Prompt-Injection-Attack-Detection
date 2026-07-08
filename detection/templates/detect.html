@@ -21,10 +21,11 @@
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html,body { width:100%; height:100%; background:var(--bg); color:var(--text); font-family:var(--font-d); overflow:hidden; }
 
-.root { display:grid; grid-template-rows:58px 1fr; width:100vw; height:100vh; overflow:hidden; }
+/* Adjusted grid-template-rows from 58px 1fr to auto 1fr to support dynamic header heights on wrapping */
+.root { display:grid; grid-template-rows:auto 1fr; width:100%; height:100vh; overflow:hidden; }
 
 /* TOPBAR */
-.topbar { display:flex; align-items:center; justify-content:space-between; padding:0 32px; background:rgba(3,11,20,.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--edge); flex-shrink:0; }
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:0 32px; background:rgba(3,11,20,.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--edge); flex-shrink:0; min-height: 58px; }
 .logo { display:flex; align-items:center; gap:12px; }
 .logo-mark { width:36px;height:36px;background:linear-gradient(135deg,rgba(0,200,255,.15),rgba(0,200,255,.04)); border:1px solid rgba(0,200,255,.3); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; box-shadow:var(--glow-c); animation:shieldPulse 3s ease-in-out infinite; }
 .logo-text { font-family:var(--font-d); font-size:1.15rem; font-weight:800; letter-spacing:.5px; }
@@ -137,6 +138,161 @@ html,body { width:100%; height:100%; background:var(--bg); color:var(--text); fo
 @keyframes chipPulse {0%,100%{opacity:1}50%{opacity:.7}}
 @keyframes flickerBlock {0%,19%,21%,55%,100%{opacity:1}20%,20.5%,56%,56.5%{opacity:.55}}
 @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+   RESPONSIVE MEDIA QUERIES
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* 1. Large Monitors (1441px and above) */
+@media (min-width: 1441px) {
+  .root {
+    max-width: 1600px;
+    margin: 0 auto;
+    border-left: 1px solid var(--edge);
+    border-right: 1px solid var(--edge);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* 2. Tablets and Smaller Viewports (max-width: 992px) */
+@media (max-width: 992px) {
+  html, body {
+    overflow: auto !important;
+    height: auto !important;
+  }
+  .root {
+    height: auto;
+    overflow-y: visible;
+  }
+  .body {
+    grid-template-columns: 1fr; /* Switch from split to stacked single column */
+    grid-template-rows: auto auto;
+    height: auto;
+    overflow: visible;
+  }
+  .chat-col {
+    height: 65vh; /* Keep chat timeline scrollable with static height limit */
+    min-height: 480px;
+    border-right: none;
+    border-bottom: 1px solid var(--edge);
+  }
+  .sec-col {
+    height: auto;
+    min-height: auto;
+    border-left: none;
+    overflow-y: visible; /* Prevent nested scrolling on the security panel */
+  }
+  .sec-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+}
+
+/* 3. Small Tablets & Landscape Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 10px 16px;
+    height: auto;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topbar-nav {
+    gap: 16px;
+    font-size: 0.65rem;
+  }
+  .status-pill {
+    padding: 4px 10px;
+    font-size: 0.55rem;
+  }
+  .chat-header {
+    padding: 16px 18px 12px;
+  }
+  .messages {
+    padding: 16px;
+  }
+  .chat-input-wrap {
+    padding: 12px 16px;
+  }
+  .alert-banner {
+    margin: 14px 16px 0;
+    padding: 14px 16px;
+  }
+  .score-grid {
+    margin: 14px 16px;
+    gap: 10px;
+  }
+  .detail-section {
+    margin: 0 16px 16px;
+    padding: 14px 16px;
+  }
+  .history-section {
+    margin: 0 16px 20px;
+  }
+}
+
+/* 4. Portrait Mobile Devices (max-width: 576px) */
+@media (max-width: 576px) {
+  .topbar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 14px;
+    gap: 10px;
+  }
+  .logo {
+    width: 100%;
+    justify-content: center;
+  }
+  .topbar-right {
+    width: 100%;
+    justify-content: center;
+  }
+  .topbar-nav {
+    width: 100%;
+    justify-content: center;
+    border-top: 1px solid var(--edge);
+    padding-top: 8px;
+    gap: 20px;
+  }
+  .chat-col {
+    height: 60vh; /* Adjust viewport allocation for smaller devices */
+    min-height: 400px;
+  }
+  .msg {
+    max-width: 92%;
+  }
+}
+
+/* 5. Compact Mobile Phones (max-width: 480px) */
+@media (max-width: 480px) {
+  .logo-text {
+    font-size: 1rem;
+  }
+  .bubble {
+    padding: 10px 14px;
+    font-size: 0.72rem;
+  }
+  .score-grid {
+    grid-template-columns: 1fr; /* Stack score metrics to prevent horizontal squeeze */
+    gap: 8px;
+  }
+  .alert-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .banner-icon {
+    font-size: 1.8rem;
+  }
+  .sec-header {
+    padding: 14px 16px 12px;
+  }
+  .sec-title {
+    font-size: 0.8rem;
+  }
+}
 </style>
 </head>
 <body>

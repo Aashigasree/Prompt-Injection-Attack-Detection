@@ -6,13 +6,42 @@ import os
 import joblib
 from .models import PromptLog
 
+from django.shortcuts import render
+from django.utils import timezone
+from datetime import timedelta
+from .models import PromptLog
+from collections import Counter
+
 def dashboard_page(request):
+    prompts = PromptLog.objects.order_by("-created_at")
 
-    prompts = PromptLog.objects.order_by('-created_at')
+    today = timezone.localdate()
+    start_date = today - timedelta(days=29)
 
-    return render(request, "index.html", {
-        "prompts": prompts
-    })
+    # Build last 30 days labels and attack counts
+    attack_counts = Counter(
+        PromptLog.objects.filter(
+            status="danger",
+            created_at__date__gte=start_date
+        ).values_list("created_at__date", flat=True)
+    )
+
+    daily_labels = []
+    daily_attacks = []
+
+    for i in range(30):
+        day = start_date + timedelta(days=i)
+        daily_labels.append(day.strftime("%m/%d"))
+        daily_attacks.append(attack_counts.get(day, 0))
+
+    context = {
+        "prompts": prompts,
+        "daily_labels": daily_labels,
+        "daily_attacks": daily_attacks,
+    }
+
+    return render(request, "index.html", context)
+
 # ---------------------------
 # Page Views
 # ---------------------------
